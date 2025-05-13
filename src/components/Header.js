@@ -57,7 +57,6 @@ class Header {
   updateHeader(name, buttonText) {
     const token = localStorage.getItem("token");
     const nama = name || "Guest";
-    const button = buttonText || "Login";
     const isLoggedIn = !!token;
 
     // Cek apakah pengguna sudah berlangganan (isSubscribed)
@@ -79,7 +78,7 @@ class Header {
       <div class="nav-auth">
         ${
           isLoggedIn
-            ? `<span>👋 Hi, ${name}</span><a href="#" id="logout">Logout</a>`
+            ? `<span>👋 Hi, ${nama}</span><a href="#" id="logout">Logout</a>`
             : `<a href="#/login" id="login">Login</a>`
         }
       </div>

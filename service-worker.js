@@ -3,8 +3,8 @@ self.addEventListener('push', function(event) {
   const data = event.data.json();
   const options = {
     body: data.options.body,
-    icon: 'images/icon.png',  // Tentukan ikon pemberitahuan
-    badge: 'images/badge.png' // Tentukan badge pemberitahuan
+    icon: 'images/icon.png',
+    badge: 'images/badge.png'
   };
   event.waitUntil(
     self.registration.showNotification(data.title, options)
@@ -22,9 +22,9 @@ self.addEventListener('install', function(event) {
         '/styles/transition.css',
         '/index.js',
         '/src/components/Header.js',
-        '/images/marker-icon.png',
-        '/images/marker-shadow.png',
-        '/manifest.json',
+        '/public/images/marker-icon.png',
+        '/public/images/marker-shadow.png',
+        '/public/manifest.json',
         '/src/views/AddStoryView.js',  // Menambahkan file view
         '/src/views/HomeView.js',  // File view lainnya
         '/src/presenters/AddStoryPresenter.js',  // File presenter

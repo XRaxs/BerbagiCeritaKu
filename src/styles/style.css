@@ -30,7 +30,7 @@ header {
   display: grid;
   grid-template-columns: 0.8fr 1fr 0.8fr;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 0rem 2rem;
   position: relative;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
@@ -49,13 +49,13 @@ header {
 
 .nav-main a,
 .nav-main button.nav-link {
-  background-color: transparent;  /* Membuat tombol transparan */
-  border: none;                   /* Menghilangkan border */
-  color: #fff;                    /* Warna teks putih */
-  padding: 10px 20px;             /* Memberikan padding */
-  text-decoration: none;          /* Menghilangkan garis bawah */
-  font-size: 16px;                /* Ukuran font yang konsisten */
-  cursor: pointer;               /* Menambahkan kursor pointer */
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
   text-align: center;
   margin: 16px 0;
 }
