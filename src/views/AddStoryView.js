@@ -84,9 +84,15 @@ class AddStoryView {
 
   initEventListeners() {
     document.getElementById('use-camera').addEventListener('click', () => {
-      document.getElementById('camera-section').style.display = 'block';
-      document.getElementById('file-section').style.display = 'none';
-      this.startCamera();
+      // Jika kamera sudah digunakan dan snapshot sudah diambil, sembunyikan snapshot dan tampilkan kamera lagi
+      if (document.getElementById('snapshot').style.display === 'block') {
+        document.getElementById('snapshot').style.display = 'none';
+        document.getElementById('camera').style.display = 'block';
+      } else {
+        document.getElementById('camera-section').style.display = 'block';
+        document.getElementById('file-section').style.display = 'none';
+        this.startCamera();
+      }
     });
 
     document.getElementById('use-upload').addEventListener('click', () => {
@@ -131,6 +137,17 @@ class AddStoryView {
           this.stream = stream;
           videoElement.srcObject = stream;
           videoElement.style.display = 'block';
+
+          // Sembunyikan snapshot saat kamera aktif
+          const canvasElement = document.getElementById('snapshot');
+          canvasElement.style.display = 'none';
+
+          // Update ukuran canvas sesuai dengan ukuran video
+          videoElement.onloadedmetadata = () => {
+            const canvasElement = document.getElementById('snapshot');
+            canvasElement.width = videoElement.videoWidth;
+            canvasElement.height = videoElement.videoHeight;
+          };
         })
         .catch(err => {
           this.showError("Tidak bisa mengakses kamera: " + err.message);
@@ -147,6 +164,10 @@ class AddStoryView {
       videoElement.srcObject = null;
       this.stream = null;
     }
+    
+    // Sembunyikan video dan snapshot saat kamera dimatikan
+    videoElement.style.display = 'none';
+    document.getElementById('snapshot').style.display = 'none';
   }
 
   capturePhoto() {
@@ -154,6 +175,11 @@ class AddStoryView {
     const canvasElement = document.getElementById('snapshot');
     const context = canvasElement.getContext('2d');
     
+    // Pastikan ukuran canvas sesuai dengan video
+    canvasElement.width = videoElement.videoWidth;
+    canvasElement.height = videoElement.videoHeight;
+
+    // Mengambil foto dari video
     context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
     
     canvasElement.style.display = 'block';
@@ -163,15 +189,15 @@ class AddStoryView {
   getPhotoData() {
     const canvasElement = document.getElementById('snapshot');
     if (canvasElement.style.display === 'block') {
-      return canvasElement.toDataURL();
+      return canvasElement.toDataURL();  // Ambil data URL dari canvas
     }
 
     const fileInput = document.getElementById('file');
     if (fileInput && fileInput.files.length > 0) {
-      return fileInput.files[0];
+      return fileInput.files[0];  // Ambil file foto dari input file
     }
 
-    return null;
+    return null;  // Kembalikan null jika tidak ada gambar yang diambil
   }
 
   showError(message) {

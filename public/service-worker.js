@@ -28,6 +28,8 @@ self.addEventListener('install', function(event) {
         '/src/presenters/AddStoryPresenter.js',
         '/public/images/marker-icon.png',
         '/public/images/marker-shadow.png',
+        '/images/screenshot1.png',  // Menambahkan screenshot
+        '/images/screenshot2.png'   // Menambahkan screenshot lainnya
       ]);
     }).catch((error) => {
       console.error('Caching failed:', error);
