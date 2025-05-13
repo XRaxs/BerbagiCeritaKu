@@ -11,7 +11,6 @@ self.addEventListener('push', function(event) {
   );
 });
 
-// Event install untuk caching konten statis agar aplikasi dapat diakses offline
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('v1').then(function(cache) {
@@ -22,15 +21,17 @@ self.addEventListener('install', function(event) {
         '/styles/transition.css',
         '/index.js',
         '/src/components/Header.js',
+        '/public/images/icon.png',
+        '/public/manifest.json',  // Pastikan manifest di-cache
+        '/src/views/AddStoryView.js',
+        '/src/views/HomeView.js',
+        '/src/presenters/AddStoryPresenter.js',
         '/public/images/marker-icon.png',
         '/public/images/marker-shadow.png',
-        '/public/manifest.json',
-        '/src/views/AddStoryView.js',  // Menambahkan file view
-        '/src/views/HomeView.js',  // File view lainnya
-        '/src/presenters/AddStoryPresenter.js',  // File presenter
-      ]).catch((error) => {
-        console.error('Caching failed:', error);  // Menangani error jika cache gagal
-      });
+      ]);
+    }).catch((error) => {
+      console.error('Caching failed:', error);
     })
   );
 });
+

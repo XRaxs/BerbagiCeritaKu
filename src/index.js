@@ -97,11 +97,13 @@ self.addEventListener('fetch', function(event) {
 });
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(function(registration) {
-      console.log('Service Worker terdaftar dengan sukses:', registration);
-    })
-    .catch(function(error) {
-      console.log('Pendaftaran Service Worker gagal:', error);
-    });
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(function(registration) {
+        console.log('Service Worker terdaftar dengan sukses:', registration);
+      })
+      .catch(function(error) {
+        console.log('Pendaftaran Service Worker gagal:', error);
+      });
+  });
 }
