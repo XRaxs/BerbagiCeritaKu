@@ -10,6 +10,14 @@ const urlsToCache = [
   '/public/images/marker-icon.png',  // Ikon badge untuk pemberitahuan
   '/public/manifest.json',  // Manifest aplikasi
   '/public/service-worker.js',  // Service worker itu sendiri
+  "/BerbagiCeritaku/",
+  "/BerbagiCeritaku/index.html",
+  "/BerbagiCeritaku/bundle.js",
+  "/BerbagiCeritaku/manifest.json",
+  "/BerbagiCeritaku/service-worker.js",
+  "/BerbagiCeritaku/images/78ea8c65cea28287bd90.png",
+  "/BerbagiCeritaku/images/83e70a079ed6ad01f44d.png",
+  "/BerbagiCeritaku/images/bf804537a8c269bb5df0.png"
 ];
 
 // Event untuk push notification
