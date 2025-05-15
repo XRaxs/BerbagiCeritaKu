@@ -89,16 +89,24 @@ document.querySelector('.skip-link').addEventListener('click', (e) => {
 
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js').then(reg => {
-      console.log('Service worker registered.', reg);
-    });
+    const pathSegments = window.location.pathname.split('/');
+    const base = pathSegments[1] ? `/${pathSegments[1]}` : '';
+    const swPath = `${base}/service-worker.js`;
+
+    navigator.serviceWorker.register(swPath)
+      .then(reg => console.log('Service Worker registered:', reg))
+      .catch(err => console.error('Service Worker registration failed:', err));
   });
 }
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(registration => {
-      console.log('Service Worker registered', registration);
-    }).catch(err => console.log('Service Worker registration failed', err));
+    const pathSegments = window.location.pathname.split('/');
+    const base = pathSegments[1] ? `/${pathSegments[1]}` : '';
+    const swPath = `${base}/sw.js`;
+
+    navigator.serviceWorker.register(swPath)
+      .then(reg => console.log('Service Worker registered:', reg))
+      .catch(err => console.error('Service Worker registration failed:', err));
   });
 }
