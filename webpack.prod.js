@@ -6,9 +6,8 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, 'dist'),        // <-- hasil build ke dist/
+    path: path.resolve(__dirname, 'dist'),
     filename: 'app.bundle.js',
-    publicPath: '/docs/',              // ini tetap penting untuk GitHub Pages
   },
   plugins: [
     new WorkboxPlugin.GenerateSW({

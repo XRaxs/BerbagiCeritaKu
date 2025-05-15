@@ -50,9 +50,6 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'public/'),
           to: path.resolve(__dirname, 'dist/'),
-          globOptions: {
-            ignore: ['**/service-worker.js'],
-          },
         },
       ],
     }),
