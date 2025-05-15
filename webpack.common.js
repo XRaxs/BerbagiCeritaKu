@@ -3,15 +3,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+  entry: {
+    app: path.resolve(__dirname, 'src/index.js'),
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true,
   },
   module: {
     rules: [
@@ -45,13 +43,16 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html',
+      template: path.resolve(__dirname, 'src/index.html'),
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'public'),
-          to: path.resolve(__dirname, 'dist'),
+          from: path.resolve(__dirname, 'public/'),
+          to: path.resolve(__dirname, 'dist/'),
+          globOptions: {
+            ignore: ['**/service-worker.js'],
+          },
         },
       ],
     }),
