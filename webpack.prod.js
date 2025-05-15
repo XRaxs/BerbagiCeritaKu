@@ -1,9 +1,15 @@
+const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = merge(common, {
   mode: 'production',
+  output: {
+    path: path.resolve(__dirname, 'dist'),        // <-- hasil build ke dist/
+    filename: 'app.bundle.js',
+    publicPath: '/docs/',              // ini tetap penting untuk GitHub Pages
+  },
   plugins: [
     new WorkboxPlugin.GenerateSW({
       clientsClaim: true,
@@ -15,10 +21,10 @@ module.exports = merge(common, {
           cacheName: 'assets',
           expiration: {
             maxEntries: 50,
-            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 hari
+            maxAgeSeconds: 30 * 24 * 60 * 60,
           },
         },
       }],
-    })
+    }),
   ],
 });

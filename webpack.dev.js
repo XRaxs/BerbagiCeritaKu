@@ -5,7 +5,7 @@ const common = require("./webpack.common.js");
 module.exports = merge(common, {
   mode: "development",
   devServer: {
-    static: path.join(__dirname, "dist"),
+    static: path.join(__dirname, "public"),
     compress: true,
     port: 3000,
     historyApiFallback: true,
