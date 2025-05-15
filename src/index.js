@@ -89,9 +89,8 @@ document.querySelector('.skip-link').addEventListener('click', (e) => {
 
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    const pathSegments = window.location.pathname.split('/');
-    const base = pathSegments[1] ? `/${pathSegments[1]}` : '';
-    const swPath = `${base}/service-worker.js`;
+    const basePath = window.location.pathname.split('/')[1];
+    const swPath = `${basePath}/service-worker.js`;
 
     navigator.serviceWorker.register(swPath)
       .then(reg => console.log('Service Worker registered:', reg))
@@ -101,9 +100,8 @@ if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
 
 if ('serviceWorker' in navigator && 'PushManager' in window) {
   window.addEventListener('load', () => {
-    const pathSegments = window.location.pathname.split('/');
-    const base = pathSegments[1] ? `/${pathSegments[1]}` : '';
-    const swPath = `${base}/sw.js`;
+    const basePath = window.location.pathname.split('/')[1];
+    const swPath = `${basePath}/sw.js`;
 
     navigator.serviceWorker.register(swPath)
       .then(reg => console.log('Service Worker registered:', reg))
