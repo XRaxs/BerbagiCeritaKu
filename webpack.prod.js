@@ -6,8 +6,9 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   output: {
-    path: path.resolve(__dirname, 'dist'),
     filename: 'app.bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/BerbagiCeritaku/'
   },
   plugins: [
     new WorkboxPlugin.GenerateSW({

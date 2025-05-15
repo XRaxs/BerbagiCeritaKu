@@ -3,9 +3,8 @@
   "short_name": "StoryApp",  
   "theme_color": "#4caf50",  
   "background_color": "#fff",  
-  "display": "standalone",  
-  "scope": "/",  
-  "start_url": "/BerbagiCeritaku",
+  "display": "standalone",
+  "start_url": "/BerbagiCeritaku/index.html",
   "icons":[
     {
       "src": "images/manifest-icon-192.maskable.png",
