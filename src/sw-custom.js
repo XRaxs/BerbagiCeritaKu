@@ -29,3 +29,5 @@ self.addEventListener('notificationclick', event => {
     })
   );
 });
+
+self.__WB_MANIFEST;

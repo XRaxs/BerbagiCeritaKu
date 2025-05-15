@@ -90,18 +90,10 @@ document.querySelector('.skip-link').addEventListener('click', (e) => {
 if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     const basePath = window.location.pathname.split('/')[1];
-    const swPath = `${basePath}/service-worker.js`;
+    const swPath = `/${basePath}/service-worker.js`;
 
     navigator.serviceWorker.register(swPath)
       .then(reg => console.log('Service Worker registered:', reg))
       .catch(err => console.error('Service Worker registration failed:', err));
-  });
-}
-
-if ('serviceWorker' in navigator && 'PushManager' in window) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(registration => {
-      console.log('Service Worker registered', registration);
-    }).catch(err => console.log('Service Worker registration failed', err));
   });
 }
