@@ -19,8 +19,8 @@ class Header {
       ${
         isLoggedIn
           ? isSubscribed
-            ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-            : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
+            ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+            : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
           : ""
       }
     </nav>
@@ -39,8 +39,8 @@ class Header {
       ${
         isLoggedIn
           ? isSubscribed
-            ? `<button id="unsubscribe-btn" class="nav-link">Unsubscribe 🔕</button>`
-            : `<button id="subscribe-btn" class="nav-link">Subscribe 🔔</button>`
+            ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+            : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
           : ""
       }
       ${
@@ -70,8 +70,8 @@ class Header {
         ${
           isLoggedIn
             ? isSubscribed
-              ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-              : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
+              ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+              : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
             : ""
         }
       </nav>
@@ -90,8 +90,8 @@ class Header {
         ${
           isLoggedIn
             ? isSubscribed
-              ? `<button id="unsubscribe-btn" class="nav-link">Unsubscribe 🔕</button>`
-              : `<button id="subscribe-btn" class="nav-link">Subscribe 🔔</button>`
+              ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+              : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
             : ""
         }
         ${
@@ -169,12 +169,12 @@ class Header {
       unsubscribeBtn.addEventListener("click", this.unsubscribeUser.bind(this));
     }
 
-    const Btnsubscribe = document.getElementById("subscribe-btn");
+    const Btnsubscribe = document.getElementById("mobileSubscribeBtn");
     if (Btnsubscribe) {
       Btnsubscribe.addEventListener("click", this.subscribeUser.bind(this));
     }
 
-    const Btnunsubscribe = document.getElementById("unsubscribe-btn");
+    const Btnunsubscribe = document.getElementById("mobileUnsubscribeBtn");
     if (Btnunsubscribe) {
       Btnunsubscribe.addEventListener("click", this.unsubscribeUser.bind(this));
     }
