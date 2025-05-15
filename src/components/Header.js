@@ -39,8 +39,8 @@ class Header {
       ${
         isLoggedIn
           ? isSubscribed
-            ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-            : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
+            ? `<button id="unsubscribe-btn" class="nav-link">Unsubscribe 🔕</button>`
+            : `<button id="subscribe-btn" class="nav-link">Subscribe 🔔</button>`
           : ""
       }
       ${
@@ -54,7 +54,7 @@ class Header {
     this.afterRender();
   }
 
-  updateHeader(name, buttonText) {
+  updateHeader(name) {
     const token = localStorage.getItem("token");
     const nama = name || "Guest";
     const isLoggedIn = !!token;
@@ -90,8 +90,8 @@ class Header {
         ${
           isLoggedIn
             ? isSubscribed
-              ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-              : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
+              ? `<button id="unsubscribe-btn" class="nav-link">Unsubscribe 🔕</button>`
+              : `<button id="subscribe-btn" class="nav-link">Subscribe 🔔</button>`
             : ""
         }
         ${
@@ -167,6 +167,16 @@ class Header {
     const unsubscribeBtn = document.getElementById("unsubscribeBtn");
     if (unsubscribeBtn) {
       unsubscribeBtn.addEventListener("click", this.unsubscribeUser.bind(this));
+    }
+
+    const Btnsubscribe = document.getElementById("subscribe-btn");
+    if (Btnsubscribe) {
+      Btnsubscribe.addEventListener("click", this.subscribeUser.bind(this));
+    }
+
+    const Btnunsubscribe = document.getElementById("unsubscribe-btn");
+    if (Btnunsubscribe) {
+      Btnunsubscribe.addEventListener("click", this.unsubscribeUser.bind(this));
     }
   }
 
