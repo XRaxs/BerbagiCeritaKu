@@ -52,12 +52,11 @@ class AddStoryView {
   }
 
   initializeMap() {
-    const basePath = window.location.pathname.split('/')[1];
     const mapElement = document.getElementById('map');
     L.Icon.Default.mergeOptions({
-      iconRetinaUrl: `${basePath}images/marker-icon-2x.png`,
-      iconUrl: `${basePath}images/marker-icon.png`,
-      shadowUrl: `${basePath}images/marker-shadow.png`,
+      iconRetinaUrl: `images/marker-icon-2x.png`,
+      iconUrl: `images/marker-icon.png`,
+      shadowUrl: `images/marker-shadow.png`,
     });
 
     if (mapElement) {
