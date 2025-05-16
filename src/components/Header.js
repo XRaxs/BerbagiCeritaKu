@@ -182,6 +182,7 @@ class Header {
 
   // Fungsi untuk subscribe pengguna]
   subscribeUser() {
+    mobileMenu.classList.add("hidden");
     if ("Notification" in window && "serviceWorker" in navigator) {
       Notification.requestPermission().then((permission) => {
         if (permission === "granted") {
@@ -253,6 +254,7 @@ class Header {
 
   // Fungsi untuk unsubscribe pengguna
   unsubscribeUser() {
+    mobileMenu.classList.add("hidden");
     navigator.serviceWorker.ready.then((registration) => {
       registration.pushManager.getSubscription().then((subscription) => {
         if (subscription) {
