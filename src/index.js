@@ -88,8 +88,9 @@ document.querySelector('.skip-link').addEventListener('click', (e) => {
 });
 
 if ('serviceWorker' in navigator) {
+  const baseURL = document.querySelector('base')?.getAttribute('href') || './';
   window.addEventListener('load', () => {
-    const swPath = `service-worker.js`;
+    const swPath = `${baseURL}service-worker.js`;
 
     navigator.serviceWorker.register(swPath)
       .then(reg => console.log('Service Worker registered:', reg))
