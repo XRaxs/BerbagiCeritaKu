@@ -1,7 +1,5 @@
 self.addEventListener('push', event => {
   const data = event.data ? event.data.json() : {};
-  
-  const title = data.title || 'Notification Title';
   const options = {
     body: data.option.body || 'Notification Body',
     icon: '/images/icon.png',
@@ -10,7 +8,7 @@ self.addEventListener('push', event => {
   };
   
   event.waitUntil(
-    self.registration.showNotification(title, options)
+    self.registration.showNotification(data.title, options)
   );
 });
 
