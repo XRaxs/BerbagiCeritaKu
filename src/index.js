@@ -87,9 +87,9 @@ document.querySelector('.skip-link').addEventListener('click', (e) => {
   }
 });
 
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    const swPath = `/service-worker.js`;
+    const swPath = `service-worker.js`;
 
     navigator.serviceWorker.register(swPath)
       .then(reg => console.log('Service Worker registered:', reg))
