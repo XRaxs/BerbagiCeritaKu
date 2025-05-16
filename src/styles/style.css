@@ -331,7 +331,7 @@ main {
   overflow-y: auto;
   position: relative;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  margin: 4rem auto 0;
+  margin: 4rem auto 1rem;
   padding: 1.5rem;
   animation: scaleIn 0.25s ease-in-out;
 }

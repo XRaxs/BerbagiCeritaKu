@@ -1,11 +1,10 @@
 const baseURL = '/BerbagiCeritaku/';
 self.addEventListener('push', event => {
-  const data = event.data ? event.data.json() : {};
+  const data = event.data.json();
   const options = {
-    body: data.options.body || 'Notification Body',
+    body: data.options.body,
     icon:  `${baseURL}images/icon.png`,
     badge: `${baseURL}images/icon.png`,
-    data: data.url || 'https://xraxs.github.io/BerbagiCeritaku/',
   };
   
   event.waitUntil(
