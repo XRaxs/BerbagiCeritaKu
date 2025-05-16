@@ -1,10 +1,11 @@
+const baseURL = document.querySelector('base')?.getAttribute('href') || './';
 self.addEventListener('push', event => {
   const data = event.data.json();
   const options = {
     body: data.options.body || 'Notification Body',
-    icon: 'images/icon.png',
-    badge: 'images/icon.png',
-    data: data.url || '/BerbagiCeritaku/',
+    icon:  `${baseURL}images/icon.png`,
+    badge: `${baseURL}images/icon.png`,
+    data: data.url || 'https://xraxs.github.io/BerbagiCeritaku/',
   };
   
   event.waitUntil(
@@ -15,7 +16,7 @@ self.addEventListener('push', event => {
 self.addEventListener('notificationclick', event => {
   event.notification.close();
 
-  const urlToOpen = event.notification.data || '/BerbagiCeritaku/';
+  const urlToOpen = event.notification.data || 'https://xraxs.github.io/BerbagiCeritaku/';
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
