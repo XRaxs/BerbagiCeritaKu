@@ -19,8 +19,8 @@ class Header {
       ${
         isLoggedIn
           ? isSubscribed
-            ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-            : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
+            ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+            : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
           : ""
       }
     </nav>
@@ -70,8 +70,8 @@ class Header {
         ${
           isLoggedIn
             ? isSubscribed
-              ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-              : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
+              ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+              : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
             : ""
         }
       </nav>
