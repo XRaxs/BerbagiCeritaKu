@@ -1,7 +1,7 @@
 self.addEventListener('push', event => {
   const data = event.data ? event.data.json() : {};
   const options = {
-    body: data.option.body || 'Notification Body',
+    body: data.options.body || 'Notification Body',
     icon: '/images/icon.png',
     badge: '/images/icon.png',
     data: data.url || '/BerbagiCeritaku/',
