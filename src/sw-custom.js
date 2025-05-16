@@ -1,4 +1,4 @@
-const baseURL = document.querySelector('base')?.getAttribute('href') || './';
+const baseURL = '/BerbagiCeritaku/';
 self.addEventListener('push', event => {
   const data = event.data ? event.data.json() : {};
   const options = {
