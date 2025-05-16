@@ -42,7 +42,9 @@ class DetailView {
 
       if (mapContainer) {
         const map = L.map(mapContainer).setView([story.lat, story.lon], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+          subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+        }).addTo(map);
         const marker = L.marker([story.lat, story.lon]).addTo(map);
         marker.bindPopup(`<b>${story.name}</b>`);
 
