@@ -1,6 +1,6 @@
 const baseURL = document.querySelector('base')?.getAttribute('href') || './';
 self.addEventListener('push', event => {
-  const data = event.data.json();
+  const data = event.data ? event.data.json() : {};
   const options = {
     body: data.options.body || 'Notification Body',
     icon:  `${baseURL}images/icon.png`,
