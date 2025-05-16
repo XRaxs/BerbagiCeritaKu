@@ -1,9 +1,9 @@
 self.addEventListener('push', event => {
-  const data = event.data ? event.data.json() : {};
+  const data = event.data.json();
   const options = {
     body: data.options.body || 'Notification Body',
-    icon: '/images/icon.png',
-    badge: '/images/icon.png',
+    icon: 'images/icon.png',
+    badge: 'images/icon.png',
     data: data.url || '/BerbagiCeritaku/',
   };
   
@@ -14,15 +14,18 @@ self.addEventListener('push', event => {
 
 self.addEventListener('notificationclick', event => {
   event.notification.close();
+
+  const urlToOpen = event.notification.data || '/BerbagiCeritaku/';
+
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
       for (const client of clientList) {
-        if (client.url === event.notification.data && 'focus' in client) {
+        if (client.url === urlToOpen && 'focus' in client) {
           return client.focus();
         }
       }
       if (clients.openWindow) {
-        return clients.openWindow(event.notification.data);
+        return clients.openWindow(urlToOpen);
       }
     })
   );
