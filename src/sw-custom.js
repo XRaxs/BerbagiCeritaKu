@@ -3,10 +3,10 @@ self.addEventListener('push', event => {
   
   const title = data.title || 'Notification Title';
   const options = {
-    body: data.body || 'Notification Body',
-    icon: data.icon || '/images/icon.png',
-    badge: data.badge || '/images/icon.png',
-    data: data.url || '/',
+    body: data.option.body || 'Notification Body',
+    icon: '/images/icon.png',
+    badge: '/images/icon.png',
+    data: data.url || '/BerbagiCeritaku/',
   };
   
   event.waitUntil(
