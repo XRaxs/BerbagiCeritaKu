@@ -1,6 +1,7 @@
 import HomeView from '../views/HomeView';
 import DetailView from '../views/DetailView';
-import StoryModel from '../models/storyModel';
+import StoryModel from '../models/StoryModel';
+import { getAllStories, saveStories, getStoryById } from '../utils/indexedDB';
 
 class HomePresenter {
   constructor() {
@@ -11,18 +12,29 @@ class HomePresenter {
 
   async init() {
     this.view.render();
-    const stories = await this.model.getStories();
+
+    let stories = await getAllStories();
+    if (stories.length === 0) {
+      // Kalau IndexedDB kosong, fetch dari API
+      stories = await this.model.getStories();
+      await saveStories(stories);
+    }
+
     this.view.displayStories(stories);
   }
 
-  showStoryDetail(id) {
-    this.model.getStoryById(id).then(story => {
-      if (story) {
-        this.detailView.showStoryPopup(story);
-      } else {
-        this.detailView.showError('Cerita tidak ditemukan.');
-      }
-    });
+  async showStoryDetail(id) {
+    let story = await getStoryById(id);
+    if (!story) {
+      // fallback ambil dari API jika tidak ada di IndexedDB
+      story = await this.model.getStoryById(id);
+    }
+
+    if (story) {
+      this.detailView.showStoryPopup(story);
+    } else {
+      this.detailView.showError('Cerita tidak ditemukan.');
+    }
   }
 
   hideStoryDetail() {
