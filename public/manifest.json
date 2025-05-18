@@ -1,8 +1,8 @@
 {  
   "name": "Story Sharing App",  
   "short_name": "StoryApp",  
-  "theme_color": "#4caf50",  
-  "background_color": "#fff",  
+  "theme_color": "#ADB2D4",  
+  "background_color": "#EEF1DA",  
   "display": "standalone",
   "start_url": "/BerbagiCeritaku/index.html",
   "icons":[
