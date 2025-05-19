@@ -12,47 +12,42 @@ class HomePresenter {
 
   async init() {
     this.view.render();
+    let stories = [];
 
     try {
-      let stories = [];
-
+      console.log('Status online:', navigator.onLine);
       if (navigator.onLine) {
-        try {
-          stories = await this.model.getStories(); // fetch dari API
-          await IndexedDB.putStories(stories);    // update cache IndexedDB
-        } catch (apiError) {
-          console.warn('Fetch API gagal, fallback ke IndexedDB', apiError);
-          stories = await IndexedDB.getAllStories();
-        }
+        console.log('Online: fetching from API...');
+        stories = await this.model.getStories();
+        console.log('Fetched stories:', stories);
+        await IndexedDB.putStories(stories);
       } else {
+        console.log('Offline: fetching from IndexedDB...');
         stories = await IndexedDB.getAllStories();
       }
-
       this.view.displayStories(stories);
     } catch (error) {
-      console.error('Gagal mengambil cerita:', error);
+      console.error('Error in init:', error);
       this.view.showError('Gagal memuat cerita.');
     }
   }
 
   async showStoryDetail(id) {
+    let story = null;
+
     try {
-      // Cari cerita dari IndexedDB dulu
-      let story = await IndexedDB.getStoryById(id);
-
-      // Kalau tidak ditemukan, fallback ke API
-      if (!story) {
-        story = await this.model.getStoryById(id);
-      }
-
-      if (story) {
-        this.detailView.showStoryPopup(story);
-      } else {
-        this.detailView.showError('Cerita tidak ditemukan.');
-      }
+      // ✅ Coba ambil dari API dulu
+      story = await this.model.getStoryById(id);
+      if (!story) throw new Error('Story not found via API');
     } catch (error) {
-      console.error('Gagal mengambil detail cerita:', error);
-      this.detailView.showError('Gagal memuat detail cerita.');
+      console.warn('Gagal ambil dari API, fallback ke IndexedDB:', error.message);
+      story = await IndexedDB.getStoryById(id);
+    }
+
+    if (story) {
+      this.detailView.showStoryPopup(story);
+    } else {
+      this.detailView.showError('Cerita tidak ditemukan.');
     }
   }
 

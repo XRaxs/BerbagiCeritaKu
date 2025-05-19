@@ -15,7 +15,7 @@ class StoryModel {
       const result = await response.json();
 
       if (!result.error) {
-        // Simpan data ke IndexedDB sebagai cache offline
+        await IndexedDB.clearStories();
         await IndexedDB.putStories(result.listStory);
         return result.listStory;
       } else {
