@@ -1,4 +1,5 @@
 import IndexedDB from '../utils/indexedDB';
+
 class StoryModel {
   async getStories() {
     try {
@@ -14,15 +15,15 @@ class StoryModel {
       const result = await response.json();
 
       if (!result.error) {
-        // Simpan ke IndexedDB
+        // Simpan data ke IndexedDB sebagai cache offline
         await IndexedDB.putStories(result.listStory);
         return result.listStory;
       } else {
         console.error('Error fetching stories:', result.message);
-        return await IndexedDB.getAllStories(); // fallback
+        return await IndexedDB.getAllStories(); // fallback IndexedDB
       }
     } catch (error) {
-      console.warn('Offline atau error, memuat dari IndexedDB');
+      console.warn('Offline atau error, memuat dari IndexedDB', error);
       return await IndexedDB.getAllStories(); // fallback offline
     }
   }
@@ -40,13 +41,11 @@ class StoryModel {
         return result.story;
       } else {
         console.error('Error fetching story:', result.message);
-        return null;
+        return await IndexedDB.getStoryById(id); // fallback IndexedDB
       }
     } catch (error) {
-      console.warn('Gagal mengambil dari API:', error);
-      // Fallback: coba dari IndexedDB
-      const all = await IndexedDB.getAllStories();
-      return all.find((story) => story.id === id) || null;
+      console.warn('Gagal mengambil dari API, fallback ke IndexedDB', error);
+      return await IndexedDB.getStoryById(id); // fallback IndexedDB
     }
   }
 }

@@ -27,6 +27,11 @@ const IndexedDB = {
     return db.getAll(STORE_NAME);
   },
 
+  async getStoryById(id) {
+    const db = await dbPromise;
+    return db.get(STORE_NAME, id);
+  },
+
   async deleteStory(id) {
     const db = await dbPromise;
     return db.delete(STORE_NAME, id);
