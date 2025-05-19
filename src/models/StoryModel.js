@@ -1,9 +1,9 @@
+import IndexedDB from '../utils/indexedDB';
 class StoryModel {
   async getStories() {
     try {
       const token = localStorage.getItem('token');
       const url = 'https://story-api.dicoding.dev/v1/stories';
-
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
       const response = await fetch(url, {
@@ -14,14 +14,16 @@ class StoryModel {
       const result = await response.json();
 
       if (!result.error) {
-        return result.listStory || [];
+        // Simpan ke IndexedDB
+        await IndexedDB.putStories(result.listStory);
+        return result.listStory;
       } else {
         console.error('Error fetching stories:', result.message);
-        return [];
+        return await IndexedDB.getAllStories(); // fallback
       }
     } catch (error) {
-      console.error('Error fetching stories:', error);
-      return [];
+      console.warn('Offline atau error, memuat dari IndexedDB');
+      return await IndexedDB.getAllStories(); // fallback offline
     }
   }
 
@@ -41,8 +43,10 @@ class StoryModel {
         return null;
       }
     } catch (error) {
-      console.error('Error fetching story by ID:', error);
-      return null;
+      console.warn('Gagal mengambil dari API:', error);
+      // Fallback: coba dari IndexedDB
+      const all = await IndexedDB.getAllStories();
+      return all.find((story) => story.id === id) || null;
     }
   }
 }
