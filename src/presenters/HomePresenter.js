@@ -1,7 +1,7 @@
 import HomeView from '../views/HomeView';
 import DetailView from '../views/DetailView';
 import StoryModel from '../models/StoryModel';
-import { getAllStories, saveStories, getStoryById } from '../utils/indexedDB';
+import IndexedDB from '../utils/indexedDB';
 
 class HomePresenter {
   constructor() {
@@ -13,27 +13,41 @@ class HomePresenter {
   async init() {
     this.view.render();
 
-    let stories = await getAllStories();
-    if (stories.length === 0) {
-      // Kalau IndexedDB kosong, fetch dari API
-      stories = await this.model.getStories();
-      await saveStories(stories);
-    }
+    try {
+      // Coba ambil data dari IndexedDB dulu
+      let stories = await IndexedDB.getAllStories();
 
-    this.view.displayStories(stories);
+      // Kalau IndexedDB kosong, fetch dari API dan simpan ke IndexedDB
+      if (!stories || stories.length === 0) {
+        stories = await this.model.getStories();
+        await IndexedDB.putStories(stories);
+      }
+
+      this.view.displayStories(stories);
+    } catch (error) {
+      console.error('Gagal mengambil cerita:', error);
+      this.view.showError('Gagal memuat cerita.');
+    }
   }
 
   async showStoryDetail(id) {
-    let story = await getStoryById(id);
-    if (!story) {
-      // fallback ambil dari API jika tidak ada di IndexedDB
-      story = await this.model.getStoryById(id);
-    }
+    try {
+      // Cari cerita dari IndexedDB dulu
+      let story = await IndexedDB.getStoryById(id);
 
-    if (story) {
-      this.detailView.showStoryPopup(story);
-    } else {
-      this.detailView.showError('Cerita tidak ditemukan.');
+      // Kalau tidak ditemukan, fallback ke API
+      if (!story) {
+        story = await this.model.getStoryById(id);
+      }
+
+      if (story) {
+        this.detailView.showStoryPopup(story);
+      } else {
+        this.detailView.showError('Cerita tidak ditemukan.');
+      }
+    } catch (error) {
+      console.error('Gagal mengambil detail cerita:', error);
+      this.detailView.showError('Gagal memuat detail cerita.');
     }
   }
 
