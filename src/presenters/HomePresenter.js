@@ -14,13 +14,18 @@ class HomePresenter {
     this.view.render();
 
     try {
-      // Coba ambil data dari IndexedDB dulu
-      let stories = await IndexedDB.getAllStories();
+      let stories = [];
 
-      // Kalau IndexedDB kosong, fetch dari API dan simpan ke IndexedDB
-      if (!stories || stories.length === 0) {
-        stories = await this.model.getStories();
-        await IndexedDB.putStories(stories);
+      if (navigator.onLine) {
+        try {
+          stories = await this.model.getStories(); // fetch dari API
+          await IndexedDB.putStories(stories);    // update cache IndexedDB
+        } catch (apiError) {
+          console.warn('Fetch API gagal, fallback ke IndexedDB', apiError);
+          stories = await IndexedDB.getAllStories();
+        }
+      } else {
+        stories = await IndexedDB.getAllStories();
       }
 
       this.view.displayStories(stories);
