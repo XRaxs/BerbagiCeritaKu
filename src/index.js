@@ -3,6 +3,9 @@ import './styles/transition.css'
 import HomePresenter from './presenters/HomePresenter';
 import Header from './components/Header';
 import Router from './router';
+import BookmarkView from './views/BookmarkView';
+
+window.bookmarkView = new BookmarkView();
 
 const header = new Header();
 header.render();

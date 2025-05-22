@@ -28,7 +28,7 @@ header {
   background-color: var(--primary);
   color: white;
   display: grid;
-  grid-template-columns: 0.8fr 1fr 0.8fr;
+  grid-template-columns: 0.6fr 1.4fr 0.8fr;
   align-items: center;
   padding: 0rem 2rem;
   position: relative;
@@ -331,7 +331,7 @@ main {
   overflow-y: auto;
   position: relative;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  margin: 4rem auto 1rem;
+  margin: 2rem auto 1rem;
   padding: 1.5rem;
   animation: scaleIn 0.25s ease-in-out;
 }
@@ -405,6 +405,65 @@ main {
   }
 }
 
+/* Tombol Bookmark dan Unbookmark yang lebih cantik */
+.bookmark-btn {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  margin-top: 16px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.bookmark-btn:hover {
+  background-color: #8c91ba;
+}
+
+.bookmark-btn:focus {
+  outline: none;
+}
+
+/* Notifikasi untuk aksi berhasil */
+.notification {
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 5px;
+  font-size: 26px;
+  position: absolute;     
+  top: 100px;
+  right: 10px;
+  animation: slideIn 0.5s ease-out;
+}
+
+.notification.warning {
+  background-color: #f44336;  /* Warna merah untuk peringatan */
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
 
 #main-content {
   flex-grow: 1;
@@ -673,6 +732,10 @@ form button:hover {
     margin-right: 12px;
   }
 
+  .notification {
+    font-size: 24px;
+  }
+
   .hamburger {
     display: block;
   }
@@ -705,6 +768,11 @@ form button:hover {
 
   .add-story-container {
     padding: 0rem;
+  }
+
+  .notification {
+    font-size: 16px;
+    top: 80px;
   }
 
   #camera-section {

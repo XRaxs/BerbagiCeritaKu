@@ -20,15 +20,30 @@ class HomePresenter {
         console.log('Online: fetching from API...');
         stories = await this.model.getStories();
         console.log('Fetched stories:', stories);
-        await IndexedDB.putStories(stories);
+
+        // Hanya simpan cerita yang disimpan oleh pengguna (saved story)
+        // Cerita yang disimpan oleh pengguna dimasukkan ke IndexedDB
+        // Tidak menyimpan seluruh cerita dari API ke IndexedDB
       } else {
         console.log('Offline: fetching from IndexedDB...');
-        stories = await IndexedDB.getAllStories();
+        stories = await IndexedDB.getAllStories();  // Hanya mengambil cerita yang disimpan oleh pengguna
       }
+
       this.view.displayStories(stories);
     } catch (error) {
       console.error('Error in init:', error);
       this.view.showError('Gagal memuat cerita.');
+    }
+  }
+
+  // Fungsi untuk menyimpan cerita yang disukai atau dibookmark oleh pengguna
+  async saveStory(story) {
+    try {
+      // Menyimpan cerita yang dipilih pengguna ke IndexedDB
+      await IndexedDB.putStory(story);  // Hanya simpan cerita yang dipilih pengguna
+      console.log('Story saved!');
+    } catch (error) {
+      console.error('Error saving story:', error);
     }
   }
 

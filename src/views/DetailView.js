@@ -1,3 +1,5 @@
+import IndexedDB from '../utils/indexedDB';  // Pastikan Anda mengimpor IndexedDB
+
 class DetailView {
   constructor() {
     this.container = document.getElementById("main-content");
@@ -5,8 +7,15 @@ class DetailView {
     this.popupContainer.classList.add("popup-overlay");
   }
 
-  showStoryPopup(story) {
+  async showStoryPopup(story) {
     const createdAt = new Date(story.createdAt).toLocaleString();
+
+    // Cek apakah cerita sudah ada di IndexedDB
+    const isBookmarked = await IndexedDB.getStoryById(story.id);
+
+    // Jika sudah disimpan, tombol berubah ke "Unbookmark Story"
+    const buttonLabel = isBookmarked ? "Unbookmark Story" : "Bookmark Story";
+    const buttonAction = isBookmarked ? this.unbookmarkStory.bind(this, story) : this.saveStory.bind(this, story);
 
     const popupHTML = `
       <div class="popup-card">
@@ -17,8 +26,9 @@ class DetailView {
         <p><strong>Waktu dibuat:</strong> ${createdAt}</p>
         ${story.lat && story.lon ? 
           `<div id="popup-map" style="height: 200px; margin-top: 1rem;"></div>` : 
-          `<p style="color: red;">User tidak mencantumkan lokasi.</p>`
+          `<p style="color: red;">User tidak mencantumkan lokasi.</p>` 
         }
+        <button id="save-story-btn" class="bookmark-btn">${buttonLabel}</button>  <!-- Tombol simpan atau unbookmark cerita --> 
       </div>
     `;
 
@@ -28,9 +38,19 @@ class DetailView {
 
     const closeButton = this.popupContainer.querySelector('.popup-close');
     closeButton.addEventListener('click', () => {
-      this.hideStoryPopup();
+      this.hideStoryPopup();  
     });
 
+    // Tombol untuk menyimpan atau unbookmark cerita
+    const saveButton = this.popupContainer.querySelector('#save-story-btn');
+    saveButton.addEventListener('click', async () => {
+      // Saat tombol diklik, langsung lakukan aksi sesuai status (save/unbookmark)
+      await buttonAction(story);
+      // Setelah aksi, langsung update tombol tanpa perlu refresh
+      saveButton.innerHTML = isBookmarked ? "Bookmark Story" : "Unbookmark Story";
+    });
+
+    // Map rendering jika ada latitude dan longitude
     if (story.lat && story.lon) {
       const baseURL = document.querySelector('base')?.getAttribute('href') || './';
       const mapContainer = document.querySelector('#popup-map');
@@ -65,6 +85,52 @@ class DetailView {
     }
 
     this.container.appendChild(this.popupContainer);
+  }
+
+  // Fungsi untuk menyimpan cerita yang disukai atau dibookmark oleh pengguna
+  async saveStory(story) {
+    try {
+      await IndexedDB.putStory(story);  
+      this.showNotification('Story saved!', 'success');
+      this.hideStoryPopup();
+    } catch (error) {
+      console.error('Error saving story:', error);
+    }
+  }
+
+  // Fungsi untuk unbookmark cerita (hapus dari IndexedDB)
+  async unbookmarkStory(story) {
+    try {
+      await IndexedDB.deleteStory(story.id);  // Menghapus cerita dari IndexedDB
+      this.showNotification('Story unbookmarked!', 'warning');
+      this.hideStoryPopup(); 
+
+      setTimeout(() => {
+        // Fade out and then refresh content
+        const bookmarkContainer = document.getElementById('main-content');
+        bookmarkContainer.classList.add('fade-out');  
+
+        setTimeout(() => {
+          window.bookmarkView.showBookmarkedStories();  
+          bookmarkContainer.classList.remove('fade-out');  
+          bookmarkContainer.classList.add('fade-in');
+        }, 500);
+      }, 2000);
+    } catch (error) {
+      console.error('Error unbookmarking story:', error);
+    }
+  }
+
+  // Fungsi untuk menampilkan notifikasi
+  showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.classList.add('notification', type);
+    notification.textContent = message;
+    this.container.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 2000);  
   }
 
   hideStoryPopup() {

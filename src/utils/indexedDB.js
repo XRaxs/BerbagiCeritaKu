@@ -13,30 +13,33 @@ const dbPromise = openDB(DB_NAME, DB_VERSION, {
 });
 
 const IndexedDB = {
-  async putStories(stories) {
+  // Menyimpan satu cerita yang diklik oleh pengguna
+  async putStory(story) {
     const db = await dbPromise;
     const tx = db.transaction(STORE_NAME, 'readwrite');
-    for (const story of stories) {
-      await tx.store.put(story);
-    }
+    await tx.store.put(story);
     await tx.done;
   },
 
+  // Mengambil semua cerita yang sudah disimpan
   async getAllStories() {
     const db = await dbPromise;
     return db.getAll(STORE_NAME);
   },
 
+  // Mengambil cerita berdasarkan ID
   async getStoryById(id) {
     const db = await dbPromise;
     return db.get(STORE_NAME, id);
   },
 
+  // Menghapus cerita berdasarkan ID
   async deleteStory(id) {
     const db = await dbPromise;
     return db.delete(STORE_NAME, id);
   },
 
+  // Menghapus semua cerita
   async clearStories() {
     const db = await dbPromise;
     return db.clear(STORE_NAME);

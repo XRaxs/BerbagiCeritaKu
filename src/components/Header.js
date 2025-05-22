@@ -4,51 +4,61 @@ class Header {
   }
 
   render() {
-  const token = localStorage.getItem("token");
-  const name = localStorage.getItem("name") || "Guest";
-  const isLoggedIn = !!token;
+    const token = localStorage.getItem("token");
+    const name = localStorage.getItem("name") || "Guest";
+    const isLoggedIn = !!token;
 
-  // Cek apakah pengguna sudah berlangganan (isSubscribed)
-  const isSubscribed = localStorage.getItem("isSubscribed") === "true";
+    // Cek apakah pengguna sudah berlangganan (isSubscribed)
+    const isSubscribed = localStorage.getItem("isSubscribed") === "true";
 
-  this.container.innerHTML = `
-    <div class="nav-brand">📖 Berbagi CeritaKu</div>
-    <nav class="nav-main">
-      <a href="#/home" id="home">Home</a>
-      <a href="#/add" id="tambah">Tambah Cerita</a>
-      ${
-        isLoggedIn
-          ? isSubscribed
-            ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-            : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
-          : ""
-      }
-    </nav>
-    <div class="nav-auth">
-      ${
-        isLoggedIn
-          ? `<span>👋 Hi, ${name}</span><a href="#" id="logout">Logout</a>`
-          : `<a href="#/login" id="login">Login</a>`
-      }
-    </div>
-    <button class="hamburger" aria-label="Menu">☰</button>
-    <div class="mobile-menu hidden" id="mobileMenu">
-      <button class="close-mobile-menu" aria-label="Close">✖</button>
-      <a href="#/home" id="home">Home</a>
-      <a href="#/add" id="tambah">Tambah Cerita</a>
-      ${
-        isLoggedIn
-          ? isSubscribed
-            ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
-            : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
-          : ""
-      }
-      ${
-        isLoggedIn
-          ? `<a href="#" id="mobileLogout">Logout</a>`
-          : `<a href="#/login" id="mobileLogin">Login</a>`
-      }
-    </div>
+    this.container.innerHTML = `
+      <div class="nav-brand">📖 Berbagi CeritaKu</div>
+      <nav class="nav-main">
+        <a href="#/home" id="home">Home</a>
+        <a href="#/add" id="tambah">Tambah Cerita</a>
+        ${
+          isLoggedIn
+            ? `<a href="#/bookmarks" id="bookmarks" class="nav-link">Bookmarks 📚</a>`  // Tombol bookmark
+            : ""
+        }
+        ${
+          isLoggedIn
+            ? isSubscribed
+              ? `<button id="unsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+              : `<button id="subscribeBtn" class="nav-link">Subscribe 🔔</button>`
+            : ""
+        }
+      </nav>
+      <div class="nav-auth">
+        ${
+          isLoggedIn
+            ? `<span>👋 Hi, ${name}</span><a href="#" id="logout">Logout</a>`
+            : `<a href="#/login" id="login">Login</a>`
+        }
+      </div>
+      <button class="hamburger" aria-label="Menu">☰</button>
+      <div class="mobile-menu hidden" id="mobileMenu">
+        <button class="close-mobile-menu" aria-label="Close">✖</button>
+        <a href="#/home" id="home">Home</a>
+        <a href="#/add" id="tambah">Tambah Cerita</a>
+        ${
+          isLoggedIn
+            ? `<a href="#/bookmarks" id="mobileBookmarks" class="nav-link">Bookmarks 📚</a>`  // Mobile version of bookmarks link
+            : ""
+        }
+        ${
+          isLoggedIn
+            ? isSubscribed
+              ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
+              : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
+            : ""
+        }
+        ${
+          isLoggedIn
+            ? `<a href="#" id="mobileLogout">Logout</a>`
+            : `<a href="#/login" id="mobileLogin">Login</a>`
+        }
+      </div>
     `;
 
     this.afterRender();
@@ -67,6 +77,11 @@ class Header {
       <nav class="nav-main">
         <a href="#/home" id="home">Home</a>
         <a href="#/add" id="tambah">Tambah Cerita</a>
+        ${
+          isLoggedIn
+            ? `<a href="#/bookmarks" id="bookmarks" class="nav-link">Bookmarks 📚</a>`  // Tombol bookmark
+            : ""
+        }
         ${
           isLoggedIn
             ? isSubscribed
@@ -89,6 +104,11 @@ class Header {
         <a href="#/add" id="tambah">Tambah Cerita</a>
         ${
           isLoggedIn
+            ? `<a href="#/bookmarks" id="mobileBookmarks" class="nav-link">Bookmarks 📚</a>`  // Mobile version of bookmarks link
+            : ""
+        }
+        ${
+          isLoggedIn
             ? isSubscribed
               ? `<button id="mobileUnsubscribeBtn" class="nav-link">Unsubscribe 🔕</button>`
               : `<button id="mobileSubscribeBtn" class="nav-link">Subscribe 🔔</button>`
@@ -100,7 +120,7 @@ class Header {
             : `<a href="#/login" id="mobileLogin">Login</a>`
         }
       </div>
-      `;
+    `;
 
     const logoutBtn = document.getElementById("logout");
     if (logoutBtn) {
@@ -180,7 +200,7 @@ class Header {
     }
   }
 
-  // Fungsi untuk subscribe pengguna]
+  // Fungsi untuk subscribe pengguna
   subscribeUser() {
     mobileMenu.classList.add("hidden");
     if ("Notification" in window && "serviceWorker" in navigator) {
